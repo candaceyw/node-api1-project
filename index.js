@@ -1,11 +1,14 @@
 const express = require("express")
 const db = require("./database.js")
 const port = 8080;
+const cors= require('cors');
+
 
 // creates our server instance
 const server = express()
 
 server.use(express.json())
+server.use(cors())
 
 server.get("/", (req, res) => {
     res.json({ message: "Testing server" })
