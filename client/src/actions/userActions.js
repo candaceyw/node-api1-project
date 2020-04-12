@@ -17,6 +17,7 @@ export const SET_LOADING = "SET_LOADING";
 export const getUser = () => dispatch => {
     dispatch({ type: USER_START });
 
+    // GET users
   return axios.get(`http://localhost:8080/users`)
   .then(res=> {
     console.log(res.data)
@@ -33,6 +34,36 @@ export const getUser = () => dispatch => {
     }); 
 }
 
+// Add Users to db
+export const addUsers = (users) => dispatch => {
+    dispatch({ type: USER_START });
+    axios
+      .post(`http://localhost:8080/api/users`, users)
+      .then(res => {
+        console.log("addUser:", res)
+        dispatch({ type: ADD_USER_SUCCESS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: ADD_USER_FAIL, payload: err});
+      });
+  }
+
+ //Delete  user from server
+export const deleteUser= id => dispatch => {
+    console.log('delete user', id)
+    dispatch({ type: DELETE_USER });
+  
+    axios
+    .delete(`http://localhost:8080/users/${id}`)
+    .then(res => {
+      console.log("delete user:", res.data)
+      dispatch({ type: DELETE_USER, payload: id });
+    })
+    .catch(err => {
+      dispatch({ type: UPDATE_USER_FAIL, payload: err});
+    });
+  }
+
  // Set current user
  export const setCurrent = user => {
     return {
@@ -42,7 +73,7 @@ export const getUser = () => dispatch => {
   };
 
   
-      // Clear current smurf
+      // Clear current user
   export const clearCurrent = () => {
     return {
       type: CLEAR_CURRENT

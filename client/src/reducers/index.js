@@ -42,7 +42,32 @@ const initialState = {
       users: [],
       loading: false,
       error: action.payload
-    }
+    };
+
+    case ADD_USER:
+        return {
+          ...state,
+          loading: true,
+          error: ""
+        };
+      case ADD_USER_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          users: [...action.payload]
+        };
+      case ADD_USER_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload
+        };
+        case DELETE_USER:
+            return {
+              ...state,
+              users: state.users.filter(user => user.id !== action.payload),
+              loading: false
+            };
 
     case SET_CURRENT:
         return {
